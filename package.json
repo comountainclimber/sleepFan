@@ -1,0 +1,16 @@
+{
+  "name": "sleepFan",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "start": "node node_modules/react-native/local-cli/cli.js start"
+  },
+  "dependencies": {
+    "classnames": "^2.2.3",
+    "jquery": "^2.2.3",
+    "react": "^0.14.8",
+    "react-native": "^0.22.2",
+    "react-native-sound": "^0.8.1",
+    "react-native-svg": "^0.2.1"
+  }
+}
