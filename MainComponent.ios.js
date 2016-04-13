@@ -11,21 +11,11 @@ let classNames = require('classnames');
 let image1 = require('./src/images/1.png')
 let image2 = require('./src/images/2.png')
 let image3 = require('./src/images/3.png')
-let fan1audio = require('./src/audio/1.mp3')
-let fan2audio = require('./src/audio/2.mp3')
-let fan3audio = require('./src/audio/3.mp3')
+
 let Sound = require('react-native-sound');
-
-// let whoosh = new Sound('1.mp3', Sound.MAIN_BUNDLE, (error) => {
-//   if (error) {
-//     console.log('failed to load the sound', error);
-//   } else { // loaded successfully 
-//     console.log('duration in seconds: ' + whoosh.getDuration() +
-//         'number of channels: ' + whoosh.getNumberOfChannels());
-//   }
-// });
-
-
+let fan1Audio= new Sound('./audio/1.mp3', Sound.MAIN_BUNDLE)
+let fan2Audio= new Sound('./audio/2.mp3', Sound.MAIN_BUNDLE)
+let fan3Audio= new Sound('./audio/3.mp3', Sound.MAIN_BUNDLE)
 
 export default class MainComponent extends React.Component {
   constructor(props) {
@@ -36,18 +26,18 @@ export default class MainComponent extends React.Component {
         { src: image1,
           fan: 1,
           isActive: false,
-          audio: './src/audio/1.mp3'
+          audio: fan1Audio
         },
         { src: image2,
           fan: 2,
           isActive: false,
-          audio: './src/audio/2.mp3'
+          audio: fan2Audio
         },
         {
           src: image3,
           fan: 3,
           isActive: false,
-          audio: '/src/audio/3.mp3'
+          audio: fan3Audio
         }
       ]
     }
@@ -57,7 +47,6 @@ export default class MainComponent extends React.Component {
 
   handleTouch(fan) {
     //alert(fan)
-    this.playAudio(fan)
     let fansArr = this.state.fans;
     for (var i=0;i<fansArr.length;i++) {
       let active = !fansArr[i].isActive
@@ -67,25 +56,22 @@ export default class MainComponent extends React.Component {
       }
       else{fansArr[i].isActive = false}
     }
-
     this.setState({fans : fansArr});
+    this.playAudio(fan)
   }
 
   playAudio(fan) {
-   // alert("asdsad")
-//    whoosh.play((success) => {
-//   if (success) {
-//     console.log('successfully finished playing');
-//   } else {
-//     console.log('playback failed due to audio decoding errors');
-//   }
-// });
-    //fan1Audio.play()
-    //console.log(fan)
-   // if (!this.state.fans[fan-1].isActive) {
-     // player.play(this.state.fans[fan-1].audio);
-   // }
-   // else {player.pause()}
+  let currentFan = this.state.fans[fan-1]
+  if (currentFan.isActive) {
+      for(var i=0;i<this.state.fans.length; i++) {
+        this.state.fans[i].audio.stop()
+      }
+      currentFan.audio.setNumberOfLoops(-1)
+      currentFan.audio.play()
+    }
+    else {
+      currentFan.audio.stop()
+    }
   }
 
   render() {
