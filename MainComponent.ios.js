@@ -3,10 +3,12 @@ import React, {
   Component,
   StyleSheet,
   Text,
-  View
+  View,
+  SliderIOS
 } from 'react-native';
 import classnames from 'classnames';
 import Fans from './Fans'
+import VolumeSlider from './VolumeSlider'
 let classNames = require('classnames');
 let image1 = require('./src/images/1.png')
 let image2 = require('./src/images/2.png')
@@ -22,6 +24,7 @@ export default class MainComponent extends React.Component {
     super(props);
     // this.startFan = this.startFan.bind(this)
     this.state = {
+      volume: 1.0,
       fans:[
         { src: image1,
           fan: 1,
@@ -42,6 +45,7 @@ export default class MainComponent extends React.Component {
       ]
     }
     this.handleTouch = this.handleTouch.bind(this);
+    this.handleVolume = this.handleTouch.bind(this);
     this.playAudio = this.playAudio.bind(this)
   }
 
@@ -66,12 +70,18 @@ export default class MainComponent extends React.Component {
       for(var i=0;i<this.state.fans.length; i++) {
         this.state.fans[i].audio.stop()
       }
+      currentFan.audio.setVolume(this.state.volume)
       currentFan.audio.setNumberOfLoops(-1)
       currentFan.audio.play()
     }
     else {
       currentFan.audio.stop()
     }
+  }
+
+  handleVolume(value) {
+    console.log("changing")
+     // this.setState({volume: value})
   }
 
   render() {
@@ -83,10 +93,28 @@ export default class MainComponent extends React.Component {
               isActive={fan.isActive} />);
     })
 
+    let volume = this.state.volume
     return (
       <View>
+      
         {fans}
+        <SliderIOS
+
+          onValueChange={
+            (value) => {
+              this.setState({volume: value})
+              // this.playAudio()
+            }
+          }
+              value={this.state.volume}
+              step={.1}
+        
+        />
+        <Text>
+        The volume is set to {volume}
+        </Text>
       </View>
+
     );
   }
 };
