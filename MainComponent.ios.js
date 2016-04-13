@@ -70,7 +70,7 @@ export default class MainComponent extends React.Component {
       for(var i=0;i<this.state.fans.length; i++) {
         this.state.fans[i].audio.stop()
       }
-      currentFan.audio.setVolume(this.state.volume)
+      //currentFan.audio.setVolume(this.state.volume)
       currentFan.audio.setNumberOfLoops(-1)
       currentFan.audio.play()
     }
@@ -85,6 +85,10 @@ export default class MainComponent extends React.Component {
   }
 
   render() {
+    for (var i=0;i<this.state.fans.length;i++){
+      this.state.fans[i].audio.setVolume(this.state.volume)
+    }
+    
     let fans = this.state.fans.map((fan) => {
       return(<Fans key={fan.fan} 
               fanNum={fan.fan} 
