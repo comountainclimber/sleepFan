@@ -10,9 +10,9 @@ import classnames from 'classnames';
 import Fans from './Fans'
 import VolumeSlider from './VolumeSlider'
 let classNames = require('classnames');
-let image1 = require('./src/images/1.png')
-let image2 = require('./src/images/2.png')
-let image3 = require('./src/images/3.png')
+let image1 = require('./src/images/3.png')
+let image2 = require('./src/images/4.png')
+let image3 = require('./src/images/5.png')
 
 let Sound = require('react-native-sound');
 let fan1Audio= new Sound('./audio/1.mp3', Sound.MAIN_BUNDLE)
@@ -85,6 +85,17 @@ export default class MainComponent extends React.Component {
   }
 
   render() {
+
+  const fanStyles = StyleSheet.create({
+    container: {
+      flexDirection: 'row',
+      flex: 1,
+      // backgroundColor: '#e7e7e7',
+      // justifyContent: 'center',
+      // alignItems: 'center',
+    }
+  });
+
     for (var i=0;i<this.state.fans.length;i++){
       this.state.fans[i].audio.setVolume(this.state.volume)
     }
@@ -100,8 +111,9 @@ export default class MainComponent extends React.Component {
     let volume = this.state.volume
     return (
       <View>
-      
-        {fans}
+        <View style={fanStyles.container}>
+          {fans}
+        </View>
         <SliderIOS
 
           onValueChange={
