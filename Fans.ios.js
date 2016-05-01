@@ -15,34 +15,35 @@ export default class Fans extends React.Component {
   
   render() {
 
-  let showActive
+  let showActive;
 
-  // if (this.props.isActive === false) {
-  //   showActive = '#FFFFFF'
-  //   sweetTint = '#000000'
-  // }
-  // else {
-  //   showActive = '#003399'
-  //   sweetTint = '#FFFFFF'
-  // }
+  if (this.props.isActive === false) {
+    showActive = 75;
+    // sweetTint = '#000000'
+  }
+  else {
+    showActive = 90;
+  }
 
   const fanStyles = StyleSheet.create({
     fanImage: {
       //margin: 10,
-      width: 100,
-      height: 100
+      width: showActive,
+      height: showActive
     },
     selected: {
       // backgroundColor: showActive,
-      borderRadius: 4
+      borderRadius: 4,
+      width: showActive,
+      height: showActive
       // tintColor: sweetTint
     },
     container: {
       flexDirection: 'row',
       flex: 1,
       // backgroundColor: '#e7e7e7',
-      // justifyContent: 'center',
-      // alignItems: 'center',
+      justifyContent: 'center',
+      alignItems: 'center',
       marginTop: 60
 
     }

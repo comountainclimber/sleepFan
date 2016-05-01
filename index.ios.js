@@ -7,7 +7,7 @@ import React, {
 } from 'react-native';
 //import ReactDOM from 'react-dom';
 import MainComponent from './MainComponent';
-import Component1 from './Component1'
+// import Component1 from './Component1'
 
 
 // ReactDOM.render(<Component1 />, document.getElementById('container'));
