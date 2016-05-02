@@ -6,6 +6,7 @@ import React, {
   View
 } from 'react-native';
 //import ReactDOM from 'react-dom';
+import LoadingView from './LoadingView';
 import MainComponent from './MainComponent';
 // import Component1 from './Component1'
 
@@ -21,6 +22,7 @@ class sleepFan extends React.Component {
   render() {
     return (
       <View style={styles.container}>
+        
         <MainComponent />
       </View>
     )

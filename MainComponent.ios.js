@@ -1,4 +1,6 @@
 import React, {
+  TouchableWithoutFeedback,
+  Animated,
   AppRegistry,
   Component,
   StyleSheet,
@@ -6,9 +8,11 @@ import React, {
   View,
   SliderIOS,
   Image,
+  Easing
 } from 'react-native';
 import classnames from 'classnames';
 import Fans from './Fans'
+import LoadingView from './LoadingView'
 
 let classNames = require('classnames');
 let image1 = require('./src/images/3.png')
@@ -28,25 +32,40 @@ let fan1Audio = new Sound('./audio/1.mp3', Sound.MAIN_BUNDLE)
 let fan2Audio = new Sound('./audio/2.mp3', Sound.MAIN_BUNDLE)
 let fan3Audio = new Sound('./audio/3.mp3', Sound.MAIN_BUNDLE)
 
+//for our animations
+let fan1Base = require('./src/images/animation/3propbase.png')
+let fan2Base = require('./src/images/animation/4propbase.png')
+let fan3Base = require('./src/images/animation/5propbase.png')
+let fan1Prop = require('./src/images/animation/3prop.png')
+let fan2Prop = require('./src/images/animation/4prop.png')
+let fan3Prop = require('./src/images/animation/4prop.png')
+
+//let SPEED = 0
+
 export default class MainComponent extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       volume: 0,
+      angle: new Animated.Value(0),
       fans:[
         { src: image1,
           fan: 1,
           isActive: true,
           audio: fan1Audio,
           activeColor: "#b8eef6",
-          trackImage: trackImage1
+          trackImage: trackImage1,
+          fanBase: fan1Base,
+          fanProp: fan1Prop
         },
         { src: image2,
           fan: 2,
           isActive: false,
           audio: fan2Audio,
           activeColor: "#69bcf1",
-          trackImage: trackImage2
+          trackImage: trackImage2,
+          fanBase: fan2Base,
+          fanProp: fan2Prop
         },
         {
           src: image3,
@@ -54,7 +73,9 @@ export default class MainComponent extends React.Component {
           isActive: false,
           audio: fan3Audio,
           activeColor: "#6b85d0",
-          trackImage: trackImage3
+          trackImage: trackImage3,
+          fanBase: fan3Base,
+          fanProp: fan3Prop
         }
       ]
     }
@@ -80,6 +101,7 @@ export default class MainComponent extends React.Component {
 
   playAudio(fan) {
     console.log(fan)
+    
   let currentFan = this.state.fans[fan-1]
   if (currentFan.isActive) {
       for(var i=0;i<this.state.fans.length; i++) {
@@ -94,55 +116,27 @@ export default class MainComponent extends React.Component {
     }
   }
 
-  handleVolume(value) {
-    console.log("changing")
-     // this.setState({volume: value})
-  }
+  // handleVolume(value) {
+  //   console.log("changing")
+  //    // this.setState({volume: value})
+  // }
+
+  // _animate(speed) {
+  //  // SPEED = speed * 1000
+  //  let SPEED = 400
+  //   //console.log(this.state.angle)
+  //  this.state.angle.setValue(0);
+  //   this._anim = Animated.timing(this.state.angle, {
+  //     toValue: 360*SPEED,
+  //     duration: 800*SPEED,
+  //     easing: Easing.linear
+  //   }).start(this._animate);
+  // }
 
   render() {
+  // this._animate();
+  //SPEED = this.state.volume
   const NUM_OF_FANS = this.state.fans.length;
-
-  const fanStyles = StyleSheet.create({
-    container: {
-      flexDirection: 'row',
-      flex: 1,
-    },
-    selectedFanImage: {
-      height: 250,
-      width: 250,
-      marginTop: 50
-    },
-    selectedFanImageContainer: {
-            justifyContent: 'center',
-      alignItems: 'center'
-    },
-    sliderView: {
-      paddingRight: 20,
-      paddingLeft: 20,
-      marginTop: 15,
-    },
-    volumeSettings: {
-      flex:1,
-      flexDirection: 'row',
-      marginTop:40,
-    },
-    offSetting: {
-      justifyContent: 'center',
-      alignItems: 'center',
-      textAlign: 'center',
-      fontSize: 30,
-      color: '#D8D8D8',
-      flex: 1
-    },
-    volumeIcon: {
-      height:36,
-      width: 55,
-      flex: 1
-    }
-
-  });
-
-
   //update the volume everytime render is called
     for (var i=0;i<NUM_OF_FANS;i++){
       this.state.fans[i].audio.setVolume(this.state.volume)
@@ -153,7 +147,8 @@ export default class MainComponent extends React.Component {
 
     for (var i=0;i<NUM_OF_FANS;i++) {
       if (this.state.fans[i].isActive === true) {
-        selectedFanImage = this.state.fans[i].src;
+        selectedFanBase = this.state.fans[i].fanBase;
+        selectedFanProp = this.state.fans[i].fanProp
         currentFan = this.state.fans[i].fan
         break;
       }
@@ -168,10 +163,16 @@ export default class MainComponent extends React.Component {
               isActive={fan.isActive} />);
     })
 
+    let speed = this.state.volume
+
     return (
       <View>
-        <View style={fanStyles.selectedFanImageContainer}>
-          <Image style={fanStyles.selectedFanImage} source={selectedFanImage} />
+        <View style={{flex:1, alignItems:'center'}}>
+          <View style={fanStyles.selectedFanImageContainer}>
+            <LoadingView speed={speed} propImage={selectedFanProp} style={fanStyles.selectedFanProp} />
+            
+            <Image style={fanStyles.selectedFanBase} source={selectedFanBase} />
+          </View>
         </View>
         <View style={[fanStyles.volumeSettings]}>
           <Text style={fanStyles.offSetting}>
@@ -202,5 +203,58 @@ export default class MainComponent extends React.Component {
     );
   }
 };
+const fanStyles = StyleSheet.create({
+    container: {
+      flexDirection: 'row',
+      flex: 1,
+    },
+    selectedFanBase: {
+      height: 250,
+      width: 250,
+      marginTop: 50,
+      position: 'relative'
+    },
+        selectedFanProp: {
+      height: 250,
+      width: 250,
+      // flex: 1,
+      //transform: [{rotate: '360deg'}],
+      position: 'absolute',
+      top:50,
+    },
+    // propContainer: {
+    //   flex:1,
+    //         position: 'absolute'
+    // },
+    selectedFanImageContainer: {
+      //       justifyContent: 'center',
+      // alignItems: 'center',
+      // textAlign: 'center'
+    },
+    sliderView: {
+      paddingRight: 20,
+      paddingLeft: 20,
+      marginTop: 15,
+    },
+    volumeSettings: {
+      flex:1,
+      flexDirection: 'row',
+      marginTop:40,
+    },
+    offSetting: {
+      justifyContent: 'center',
+      alignItems: 'center',
+      textAlign: 'center',
+      fontSize: 30,
+      color: '#D8D8D8',
+      flex: 1
+    },
+    volumeIcon: {
+      height:36,
+      width: 55,
+      flex: 1
+    }
+
+  });
 
 export default MainComponent;
