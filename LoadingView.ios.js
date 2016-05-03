@@ -51,6 +51,7 @@ var LoadingView = React.createClass({
   // },
 
   render() {
+
     //TIMES = this.props.speed
     //console.log(TIMES)
     // if (this.props.speed > 0) {

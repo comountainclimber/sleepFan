@@ -12,12 +12,15 @@ import React, {
 } from 'react-native';
 import classnames from 'classnames';
 import Fans from './Fans'
+import Timer from './Timer'
 import LoadingView from './LoadingView'
 
 let classNames = require('classnames');
 let image1 = require('./src/images/3.png')
 let image2 = require('./src/images/4.png')
 let image3 = require('./src/images/5.png')
+
+//The following are volume controls and the slider images
 let trackImage1 = require('./src/images/rec.png')
 let trackImage2 = require('./src/images/rec2.png')
 let trackImage3 = require('./src/images/rec3.png')
@@ -27,6 +30,8 @@ let volumeControls = require('./src/images/volumecontrols.png')
 let vol1 = require('./src/images/vol1.png')
 let vol2 = require('./src/images/vol2.png')
 let vol3 = require('./src/images/vol3.png')
+
+//require react-native-sound and our audio samples which were added in our Xcode project I think?
 let Sound = require('react-native-sound');
 let fan1Audio = new Sound('./audio/1.mp3', Sound.MAIN_BUNDLE)
 let fan2Audio = new Sound('./audio/2.mp3', Sound.MAIN_BUNDLE)
@@ -38,7 +43,7 @@ let fan2Base = require('./src/images/animation/4propbase.png')
 let fan3Base = require('./src/images/animation/5propbase.png')
 let fan1Prop = require('./src/images/animation/3prop.png')
 let fan2Prop = require('./src/images/animation/4prop.png')
-let fan3Prop = require('./src/images/animation/4prop.png')
+let fan3Prop = require('./src/images/animation/5prop.png')
 
 //let SPEED = 0
 
@@ -82,6 +87,7 @@ export default class MainComponent extends React.Component {
     this.handleTouch = this.handleTouch.bind(this);
     this.handleVolume = this.handleTouch.bind(this);
     this.playAudio = this.playAudio.bind(this)
+    this.stopFan = this.stopFan.bind(this)
   }
 
   handleTouch(fan) {
@@ -133,6 +139,10 @@ export default class MainComponent extends React.Component {
   //   }).start(this._animate);
   // }
 
+  stopFan() {
+    console.log("stopping")
+  }
+
   render() {
   // this._animate();
   //SPEED = this.state.volume
@@ -144,12 +154,14 @@ export default class MainComponent extends React.Component {
 
     let selectedFanImage;
     let currentFan;
+    let borderColor;
 
     for (var i=0;i<NUM_OF_FANS;i++) {
       if (this.state.fans[i].isActive === true) {
         selectedFanBase = this.state.fans[i].fanBase;
         selectedFanProp = this.state.fans[i].fanProp
         currentFan = this.state.fans[i].fan
+        borderColor = this.state.fans[i].activeColor
         break;
       }
     }
@@ -160,13 +172,16 @@ export default class MainComponent extends React.Component {
               fanNum={fan.fan} 
               source={fan.src} 
               onPress={this.handleTouch}
+              border={fan.activeColor}
               isActive={fan.isActive} />);
     })
 
     let speed = this.state.volume
 
     return (
+
       <View>
+
         <View style={{flex:1, alignItems:'center'}}>
           <View style={fanStyles.selectedFanImageContainer}>
             <LoadingView speed={speed} propImage={selectedFanProp} style={fanStyles.selectedFanProp} />
@@ -196,6 +211,7 @@ export default class MainComponent extends React.Component {
             step={.34}
           />
         </View>
+         <Timer borderColor={borderColor} />
         <View style={fanStyles.container}>
           {fans}
         </View>
@@ -256,5 +272,8 @@ const fanStyles = StyleSheet.create({
     }
 
   });
-
+          console.ignoredYellowBox = [
+      'Warning: Failed propType',
+      // Other warnings you don't want like 'jsSchedulingOverhead',
+    ]
 export default MainComponent;
