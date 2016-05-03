@@ -664,6 +664,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = sleepFan;
 				PROVISIONING_PROFILE = "";
+				SHARED_PRECOMPS_DIR = "";
 			};
 			name = Debug;
 		};
@@ -684,6 +685,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = sleepFan;
 				PROVISIONING_PROFILE = "";
+				SHARED_PRECOMPS_DIR = "";
 			};
 			name = Release;
 		};

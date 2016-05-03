@@ -46,6 +46,7 @@ let fan2Prop = require('./src/images/animation/4prop.png')
 let fan3Prop = require('./src/images/animation/5prop.png')
 
 //let SPEED = 0
+let speed;
 
 export default class MainComponent extends React.Component {
   constructor(props) {
@@ -84,10 +85,13 @@ export default class MainComponent extends React.Component {
         }
       ]
     }
+
     this.handleTouch = this.handleTouch.bind(this);
     this.handleVolume = this.handleTouch.bind(this);
     this.playAudio = this.playAudio.bind(this)
     this.stopFan = this.stopFan.bind(this)
+               this.timerChangeHandler = this.timerChangeHandler.bind(this)
+               this.handleSliderChange = this.handleSliderChange.bind(this)
   }
 
   handleTouch(fan) {
@@ -107,19 +111,21 @@ export default class MainComponent extends React.Component {
 
   playAudio(fan) {
     console.log(fan)
-    
-  let currentFan = this.state.fans[fan-1]
-  if (currentFan.isActive) {
-      for(var i=0;i<this.state.fans.length; i++) {
-        this.state.fans[i].audio.stop()
+  
+  if(this.state.volume > 0) {
+    let currentFan = this.state.fans[fan-1]
+    if (currentFan.isActive) {
+        for(var i=0;i<this.state.fans.length; i++) {
+          this.state.fans[i].audio.stop()
+        }
+        //currentFan.audio.setVolume(this.state.volume)
+        currentFan.audio.setNumberOfLoops(-1)
+        currentFan.audio.play()
       }
-      //currentFan.audio.setVolume(this.state.volume)
-      currentFan.audio.setNumberOfLoops(-1)
-      currentFan.audio.play()
-    }
-    else {
-      currentFan.audio.stop()
-    }
+      else {
+        currentFan.audio.stop()
+      }
+  }
   }
 
   // handleVolume(value) {
@@ -139,14 +145,41 @@ export default class MainComponent extends React.Component {
   //   }).start(this._animate);
   // }
 
+  timerChangeHandler(count){
+    // let countDown = count
+    // console.log("it worked")
+    // console.log(countDown)
+    if (count === 1) {
+      this.stopFan()
+    }
+  }
+
   stopFan() {
-    console.log("stopping")
+    //this.setState({volume: 0})
+    //const NUM_OF_FANS = this.state.fans.length;
+    const NUM_OF_FANS = this.state.fans.length;
+    for(var i=0; i<NUM_OF_FANS; i++) {
+      if (this.state.fans[i].isActive) {
+        this.state.fans[i].audio.stop()
+         this.setState({volume:0})
+       // this.handleTouch(this.state.fans[i].fan)
+        //this.handleSliderChange(0)
+        //speed = 0
+        //this.setState({volume:0})
+        //break
+      }
+    }
+  }
+
+  handleSliderChange(value) {
+    this.setState({volume: value})
   }
 
   render() {
   // this._animate();
   //SPEED = this.state.volume
   const NUM_OF_FANS = this.state.fans.length;
+  //const NUM_OF_FANS = this.state.fans.length;
   //update the volume everytime render is called
     for (var i=0;i<NUM_OF_FANS;i++){
       this.state.fans[i].audio.setVolume(this.state.volume)
@@ -155,6 +188,7 @@ export default class MainComponent extends React.Component {
     let selectedFanImage;
     let currentFan;
     let borderColor;
+    
 
     for (var i=0;i<NUM_OF_FANS;i++) {
       if (this.state.fans[i].isActive === true) {
@@ -176,7 +210,7 @@ export default class MainComponent extends React.Component {
               isActive={fan.isActive} />);
     })
 
-    let speed = this.state.volume
+    speed = this.state.volume
 
     return (
 
@@ -203,7 +237,8 @@ export default class MainComponent extends React.Component {
             thumbImage = {thumbImage2}
             onValueChange={
               (value) => {
-                this.setState({volume: value})
+                //this.setState({volume: value})
+                this.handleSliderChange(value)
                 this.playAudio(currentFan)
               }
             } 
@@ -211,7 +246,7 @@ export default class MainComponent extends React.Component {
             step={.34}
           />
         </View>
-         <Timer borderColor={borderColor} />
+         <Timer borderColor={borderColor} timerChange={this.timerChangeHandler} />
         <View style={fanStyles.container}>
           {fans}
         </View>

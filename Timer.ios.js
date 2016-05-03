@@ -129,6 +129,7 @@ export default class Timer extends React.Component {
       count: 0,
       text: "",
       date: (new Date()),
+      timerDate: (new Date()),
       timeZoneOffset: (-1) * (new Date()).getTimezoneOffset() / 60,
       modalVisible: false,
       transparent: true,
@@ -136,8 +137,10 @@ export default class Timer extends React.Component {
 
     }
      this._onDateChange = this._onDateChange.bind(this);
-     this._setModalVisible = this._setModalVisible.bind(this);
+     // this._setModalVisible = this._setModalVisible.bind(this);
           this._handleTimerInput = this._handleTimerInput.bind(this);
+           this._setModalVisible =  this._setModalVisible.bind(this)
+           // this.timerChangeHandler = this.timerChangeHandler.bind(this)
 
   }
 
@@ -145,24 +148,29 @@ export default class Timer extends React.Component {
     // console.log("mount")
   }
 
+  // timerChangeHandler(e) {
+  //   console.log(this.props.onChange(e.target.value))
+  // }
+
   componentWillUpdate() {
-    timer.setInterval('foo', () => this.setState({count: this.state.count-1}), 1000);
+
 
 // state.count is = to 0 when the application loads this is really confusing
 // need to figure out how to call out with props to stop the fan noise when count
 // is equal to 0
     if (this.state.count === 1) {
       // console.log("about to end")
-      // this.props.stopFan
+      // this.props.stopFan    
+      this.props.timerChange(this.state.count)
       timer.clearInterval('foo');
     }
 
-    else if (this.state.count === -1) {
-      // console.log("about to end")
-      this.setState({count:2})
-      // this.props.stopFan
-      timer.clearInterval('foo');
-    }
+    // else if (this.state.count === -1) {
+    //   // console.log("about to end")
+    //   this.setState({count:2})
+    //   // this.props.stopFan
+    //   timer.clearInterval('foo');
+    // }
 
     // else if (this.state.count === 1) {
     //   timer.clearInterval('foo');
@@ -180,12 +188,13 @@ export default class Timer extends React.Component {
 
   _onDateChange(date) {
 
-  
-    console.log(date.getHours() + "|" + date.getMinutes())
-    console.log(this.state.date.getHours() + "|" + this.state.date.getMinutes())
+    timer.setInterval('foo', () => this.setState({count: this.state.count-1}), 1000);
+    // console.log(date.getHours() + "|" + date.getMinutes())
+    // console.log(this.state.date.getHours() + "|" + this.state.date.getMinutes())
 
     let diffInHours = (date.getHours() - this.state.date.getHours())
      let diffInTime = (date.getTime() - this.state.date.getTime())
+     this.setState({timerDate:date})
       // if (diffInHours > 0) {
       //   break
       // }
@@ -196,7 +205,7 @@ export default class Timer extends React.Component {
     if (diffInSeconds > 0 ){
       this.setState({count: diffInSeconds})
     }
-    this.setState({date:date})
+    
     // timeEndDate = date
   }
 
@@ -210,12 +219,17 @@ export default class Timer extends React.Component {
   }
   
   render() {
-    // if (this.state.count === 0) {
-    //   timer.clearInterval('foo');
+    // if (this.state.count === 1) {
+    //   // timer.clearInterval('foo');
     //   // this.props.stopFan
     //   //alert("fooblumpkin")
+    //   console.log("STOP THE FUCKING FAN")
+
 
     // }
+
+
+
 
     var dynamicStyles = StyleSheet.create({
         timerButton: {
@@ -258,17 +272,31 @@ export default class Timer extends React.Component {
           >
           <View style={[styles.container, modalBackgroundStyle]}>
             <View style={[styles.innerContainer, innerContainerTransparentStyle]}>
-              <Text style={{textAlign:'center'}}> Enter when you would like sleepFan to turn off... </Text>
+             { /*<Text style={{textAlign:'center'}}> Enter when you would like sleepFan to turn off... </Text>  */}
+
               <DatePickerIOS
-                date={this.state.date}
+                date={this.state.timerDate}
                 mode="time"
                 timeZoneOffsetInMinutes = {this.state.timeZoneOffsetInHours * 60}
                 minuteInterval={1}
                 onDateChange = {this._onDateChange}
+                minimumDate = {this.state.date}
               />
               <View style={styles.row}>
                 <Button2
-                  onPress={this._setModalVisible.bind(this, false)}
+                  onPress=
+
+                  {
+                    () => {
+                      //this._setModalVisible()
+                      //this.playAudio(currentFan)
+                      //console.log("sdfdsd")
+                      this.setState({modalVisible: false});
+                      this.setState({timerDate: new Date()})
+                    }
+                  } 
+
+
                   style={styles.modalButton}
                   backgroundColor={'#333333'}
                   >
@@ -277,9 +305,13 @@ export default class Timer extends React.Component {
                 <Button2
                   onPress=
                   {
-
-                      this._setModalVisible.bind(this, false)
-
+                    () => {
+                      //this._setModalVisible()
+                      //this.playAudio(currentFan)
+                      //console.log("sdfdsd")
+                      this.setState({modalVisible: false});
+                      //this.setState({timerDate: new Date()})
+                    }
                   } 
                   style={styles.modalButton}
                   backgroundColor={'#333333'}
