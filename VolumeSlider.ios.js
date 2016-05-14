@@ -4,7 +4,7 @@ import React, {
   StyleSheet,
   Text,
   View,
-  SliderIOS
+  Slider
 } from 'react-native';
 
 export default class VolumeSlider extends React.Component {
@@ -19,13 +19,13 @@ export default class VolumeSlider extends React.Component {
     let volume = this.state.value
     return (
       <View>
-        <SliderIOS
+        <Slider
           onValueChange={(value) => {
             this.setState({value:value})
             // this.props.onChange(value)
           }
           }
-          step={.01}
+          step={.25}
         />
         <Text>
         The volume is set to {volume}
