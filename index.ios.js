@@ -6,8 +6,8 @@ import React, {
   View
 } from 'react-native';
 //import ReactDOM from 'react-dom';
-import LoadingView from './LoadingView';
-import MainComponent from './MainComponent';
+//import LoadingView from './LoadingView';
+import MainComponent from './src/components/MainComponent';
 // import Component1 from './Component1'
 
 
