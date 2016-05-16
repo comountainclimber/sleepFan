@@ -128,45 +128,18 @@ export default class MainComponent extends React.Component {
   }
   }
 
-  // handleVolume(value) {
-  //   console.log("changing")
-  //    // this.setState({volume: value})
-  // }
-
-  // _animate(speed) {
-  //  // SPEED = speed * 1000
-  //  let SPEED = 400
-  //   //console.log(this.state.angle)
-  //  this.state.angle.setValue(0);
-  //   this._anim = Animated.timing(this.state.angle, {
-  //     toValue: 360*SPEED,
-  //     duration: 800*SPEED,
-  //     easing: Easing.linear
-  //   }).start(this._animate);
-  // }
-
   timerChangeHandler(count){
-    // let countDown = count
-    // console.log("it worked")
-    // console.log(countDown)
     if (count === 1) {
       this.stopFan()
     }
   }
 
   stopFan() {
-    //this.setState({volume: 0})
-    //const NUM_OF_FANS = this.state.fans.length;
     const NUM_OF_FANS = this.state.fans.length;
     for(var i=0; i<NUM_OF_FANS; i++) {
       if (this.state.fans[i].isActive) {
         this.state.fans[i].audio.stop()
          this.setState({volume:0})
-       // this.handleTouch(this.state.fans[i].fan)
-        //this.handleSliderChange(0)
-        //speed = 0
-        //this.setState({volume:0})
-        //break
       }
     }
   }
@@ -176,11 +149,7 @@ export default class MainComponent extends React.Component {
   }
 
   render() {
-  // this._animate();
-  //SPEED = this.state.volume
   const NUM_OF_FANS = this.state.fans.length;
-  //const NUM_OF_FANS = this.state.fans.length;
-  //update the volume everytime render is called
     for (var i=0;i<NUM_OF_FANS;i++){
       this.state.fans[i].audio.setVolume(this.state.volume)
     }
@@ -237,7 +206,6 @@ export default class MainComponent extends React.Component {
             thumbImage = {thumbImage2}
             onValueChange={
               (value) => {
-                //this.setState({volume: value})
                 this.handleSliderChange(value)
                 this.playAudio(currentFan)
               }
@@ -265,22 +233,13 @@ const fanStyles = StyleSheet.create({
       marginTop: 50,
       position: 'relative'
     },
-        selectedFanProp: {
+      selectedFanProp: {
       height: 250,
       width: 250,
-      // flex: 1,
-      //transform: [{rotate: '360deg'}],
       position: 'absolute',
       top:50,
     },
-    // propContainer: {
-    //   flex:1,
-    //         position: 'absolute'
-    // },
     selectedFanImageContainer: {
-      //       justifyContent: 'center',
-      // alignItems: 'center',
-      // textAlign: 'center'
     },
     sliderView: {
       paddingRight: 20,
@@ -305,10 +264,6 @@ const fanStyles = StyleSheet.create({
       width: 55,
       flex: 1
     }
-
   });
-          console.ignoredYellowBox = [
-      'Warning: Failed propType',
-      // Other warnings you don't want like 'jsSchedulingOverhead',
-    ]
+
 export default MainComponent;

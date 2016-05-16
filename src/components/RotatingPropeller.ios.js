@@ -44,19 +44,8 @@ var RotatingPropeller = React.createClass({
   })
   }
   },
-  
-
-  // componentDidUnmount:function(){
-
-  // },
 
   render() {
-
-    //TIMES = this.props.speed
-    //console.log(TIMES)
-    // if (this.props.speed > 0) {
-    //this._animate(TIMES);
-    // }
     return (
       <View>
           <Animated.Image
@@ -76,21 +65,12 @@ var RotatingPropeller = React.createClass({
 });
 
 var styles = StyleSheet.create({
-  // container: {
-  //   flex: 1,
-  //   justifyContent: 'center',
-  //   alignItems: 'center'
-  // },
   rotateCard: {
-
       height: 250,
       width: 250,
-      // flex: 1,
-      //transform: [{rotate: '360deg'}],
       position: 'absolute',
       top:50,
     }
-  // }
 });
 
 

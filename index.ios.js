@@ -5,14 +5,8 @@ import React, {
   Text,
   View
 } from 'react-native';
-//import ReactDOM from 'react-dom';
-//import LoadingView from './LoadingView';
 import MainComponent from './src/components/MainComponent';
-// import Component1 from './Component1'
-
-
-// ReactDOM.render(<Component1 />, document.getElementById('container'));
-//ReactDOM.render(<SliderParent />, document.getElementById('root'));
+import {AdMobBanner, AdMobInterstitial} from 'react-native-admob'
 
 class sleepFan extends React.Component {
   constructor(props){
@@ -22,8 +16,13 @@ class sleepFan extends React.Component {
   render() {
     return (
       <View style={styles.container}>
-        
         <MainComponent />
+        <View style={{position: 'absolute', left: 0, right: 0, bottom: 0}}>
+          <AdMobBanner
+            bannerSize={"smartBannerPortrait"}
+            adUnitID={"ca-app-pub-3940256099942544/6300978111"}
+            didFailToReceiveAdWithError={this.bannerError} />
+        </View>
       </View>
     )
   }
@@ -32,22 +31,7 @@ class sleepFan extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    // justifyContent: 'center',
-    // alignItems: 'center',
     backgroundColor: '#333333',
-  },
-  welcome: {
-    fontSize: 20,
-    textAlign: 'center',
-    margin: 10,
-  },
-  instructions: {
-    textAlign: 'center',
-    color: '#333333',
-    marginBottom: 5,
-  },
-  fanImage: {
-    height: 200
   }
 });
 
