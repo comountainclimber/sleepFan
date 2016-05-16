@@ -33,9 +33,9 @@ let vol3 = require('/../src/images/vol3.png')
 
 //require react-native-sound and our audio samples which were added in our Xcode project I think?
 let Sound = require('react-native-sound');
-let fan1Audio = new Sound('/../audio/1.mp3', Sound.MAIN_BUNDLE)
-let fan2Audio = new Sound('/../audio/2.mp3', Sound.MAIN_BUNDLE)
-let fan3Audio = new Sound('/../audio/3.mp3', Sound.MAIN_BUNDLE)
+let fan1Audio = new Sound('/./audio/1.mp3', Sound.MAIN_BUNDLE)
+let fan2Audio = new Sound('/./audio/2.mp3', Sound.MAIN_BUNDLE)
+let fan3Audio = new Sound('/./audio/3.mp3', Sound.MAIN_BUNDLE)
 
 //for our animations
 let fan1Base = require('/../images/animation/3propbase.png')
